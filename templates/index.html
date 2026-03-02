@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Smart Cam AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .nav-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 5px;
+            background: var(--secondary);
+            color: white;
+        }
+
+        .ultimate-tab {
+            border-left: 1px solid var(--accent) !important;
+            color: var(--accent) !important;
+        }
+
+        .tag-chip {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container" style="text-align: left; margin-bottom: 2rem;">
+                <div class="logo-circle" style="width: 50px; height: 50px; font-size: 1.25rem; margin-left: 0;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 style="margin-top: 1rem; font-size: 1.25rem;">Smart Cam AI</h2>
+                <div style="font-size: 0.7rem; color: var(--accent); font-weight: 800; letter-spacing: 2px;">V4.0
+                    SUPREME</div>
+                <div
+                    style="background: var(--grad-main); color: #fff; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 5px;">
+                    42 AI CORE MODULES LIVE</div>
+            </div>
+
+            <nav style="display: flex; flex-direction: column;">
+                <button id="nav-live" class="btn nav-link active" onclick="showSection('live')">
+                    <i class="fas fa-video"></i> Live Neural Feed <span
+                        style="background:red; color:white; font-size:0.5rem; padding:2px 5px; border-radius:5px; margin-left:5px; vertical-align:middle;">LIVE</span>
+                </button>
+                <button id="nav-vision" class="btn nav-link" onclick="showSection('vision')">
+                    <i class="fas fa-eye"></i> Vision Hub
+                </button>
+                <button id="nav-ocr" class="btn nav-link" onclick="showSection('ocr')">
+                    <i class="fas fa-file-alt"></i> OCR & Intelligence
+                </button>
+                <button id="nav-pro" class="btn nav-link" onclick="showSection('pro')">
+                    <i class="fas fa-microchip"></i> Pro Features
+                </button>
+                <button id="nav-analysis" class="btn nav-link" onclick="showSection('analysis')">
+                    <i class="fas fa-chart-pie"></i> Analysis Image
+                </button>
+                <button id="nav-life" class="btn nav-link" onclick="showSection('life')">
+                    <i class="fas fa-seedling"></i> Life Science AI<span class="feature-badge">NEW</span>
+                </button>
+                <button id="nav-ultimate" class="btn nav-link ultimate-tab" onclick="showSection('ultimate')">
+                    <i class="fas fa-star"></i> Ultimate Visual Lab<span class="feature-badge">SUPREME</span>
+                </button>
+
+
+
+                <button id="nav-admin" class="btn nav-link" onclick="showSection('admin')"
+                    style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; color: #f59e0b;">
+                    <i class="fas fa-user-shield"></i> Admin Analytics
+                </button>
+            </nav>
+
+            <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                <a href="/logout" class="btn btn-secondary" style="width: 100%;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Live Camera Section -->
+            <section id="live-section" class="content-section">
+                <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h1 style="font-size: 2rem;"><span style="color:red;">●</span> Live Neural Stream</h1>
+                        <p style="color: var(--text-dim);">Real-time high-speed surveillance & telemetry</p>
+                    </div>
+                    <div
+                        style="background: rgba(255,0,0,0.1); border: 1px solid rgba(255,0,0,0.3); padding: 5px 15px; border-radius: 20px; color: red; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 8px;">
+                        <span class="live-status-dot"></span>
+                        ENCRYPTED FEED
+                    </div>
+                </div>
+
+                <div class="vision-grid">
+                    <div class="glass-card">
+                        <div class="camera-viewport" style="height: 500px; border-color: rgba(255,0,0,0.3);">
+                            <img id="live-stream-img" src=""
+                                style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                            <div id="live-placeholder"
+                                style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim);">
+                                <i class="fas fa-video-slash"
+                                    style="font-size:4rem; margin-bottom:1.5rem; opacity:0.2;"></i>
+                                <h3>Feed Offline</h3>
+                                <p>Initialize the neural uplink to begin streaming</p>
+                                <button class="btn btn-primary"
+                                    style="margin-top:2rem; background: red; border: none; padding: 12px 30px;"
+                                    onclick="toggleLive(true)">
+                                    <i class="fas fa-plug"></i> START NEURAL UPLINK
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-secondary" onclick="toggleLive(false)"><i class="fas fa-stop"></i>
+                                STOP FEED</button>
+                            <button class="btn btn-secondary" onclick="downloadSnapshot()"><i class="fas fa-camera"></i>
+                                CAPTURE</button>
+                            <button class="btn btn-primary" onclick="captureLiveFrame()"><i
+                                    class="fas fa-crosshairs"></i> DETECT OBJECTS</button>
+                        </div>
+                        <div style="margin-top: 10px; display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-primary" style="background:#10b981;"
+                                onclick="captureLiveForLifeAI('plant')"><i class="fas fa-leaf"></i> Scan Plant</button>
+                            <button class="btn btn-primary" style="background:#f59e0b;"
+                                onclick="captureLiveForLifeAI('food')"><i class="fas fa-utensils"></i> Scan
+                                Food</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Results Panel -->
+                    <div class="results-panel">
+                        <div class="glass-card">
+                            <h3><i class="fas fa-list-ul"></i> Live Objects</h3>
+                            <div id="live-detection-list"
+                                style="margin-top: 1rem; min-height: 50px; max-height: 300px; overflow-y: auto;">
+                                <div style="opacity:0.5; font-size:0.8rem;">Waiting for scan...</div>
+                            </div>
+                        </div>
+                        <div class="glass-card" style="margin-top: 1rem;">
+                            <h3><i class="fas fa-calculator"></i> Live Counters</h3>
+                            <div id="live-object-counters"
+                                style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 1rem;">
+                            </div>
+                        </div>
+                        <div class="glass-card" style="margin-top: 1rem; border-left: 4px solid var(--accent);">
+                            <h4 style="color: var(--accent);"><i class="fas fa-book-open"></i> Live Story</h4>
+                            <p id="live-vision-story"
+                                style="font-style: italic; color: var(--text-dim); font-size: 0.9rem;">Analysis
+                                pending...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vision Hub -->
+            <section id="vision-section" class="content-section" style="display: none;">
+                <h1 style="font-size: 2rem;">Vision Hub</h1>
+                <div class="vision-grid" style="margin-top: 1.5rem;">
+                    <div class="glass-card">
+                        <div class="camera-viewport active"><img id="preview"
+                                src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000">
+                        </div>
+                        <button class="btn btn-primary" onclick="document.getElementById('imageInput').click()"
+                            style="margin-top: 1rem;"><i class="fas fa-upload"></i> Upload Pulse Core</button>
+                        <input type="file" id="imageInput" hidden onchange="previewAndDetect(this)">
+                        <div class="glass-card" style="margin-top: 1.5rem; border-left: 4px solid var(--accent);">
+                            <h4 style="color: var(--accent);"><i class="fas fa-book-open"></i> Vision Story</h4>
+                            <p id="vision-story" style="font-style: italic; color: var(--text-dim);">Awaiting
+                                analysis...</p>
+                        </div>
+                    </div>
+                    <div class="results-panel">
+                        <div class="glass-card">
+                            <h3><i class="fas fa-list-ul"></i> Objects</h3>
+                            <div id="detection-list" style="margin-top: 1rem;"></div>
+                        </div>
+                        <div class="glass-card" style="margin-top: 1rem;">
+                            <h3><i class="fas fa-calculator"></i> Counters</h3>
+                            <div id="object-counters"
+                                style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 1rem;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ultimate Visual Lab -->
+            <section id="ultimate-section" class="content-section" style="display: none;">
+                <h1 style="font-size: 2rem; color: var(--accent);">Ultimate Visual Lab</h1>
+                <p style="color: var(--text-dim);">Advanced Visualization & Accessibility Suite</p>
+
+                <div class="vision-grid" style="margin-top: 1.5rem;">
+                    <div class="glass-card">
+                        <h3>Supreme Workbench</h3>
+                        <div class="camera-viewport"
+                            style="height: 350px; border-color: var(--accent); margin: 1rem 0;">
+                            <img id="ultimate-preview" src="">
+                            <div id="ultimate-upload-prompt"
+                                style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim);">
+                                <i class="fas fa-microchip"
+                                    style="font-size:3rem; margin-bottom:1rem; opacity:0.3;"></i>
+                                <p>No image for Ultimate Lab</p>
+                                <button class="btn btn-primary" style="margin-top:1rem; background:var(--accent);"
+                                    onclick="document.getElementById('imageInput').click()">Initialize Buffer</button>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <button class="btn btn-primary" onclick="ultimateOp('heatmap')"><i class="fas fa-fire"></i>
+                                Density Heatmap</button>
+                            <button class="btn btn-primary" onclick="ultimateOp('wire')"><i
+                                    class="fas fa-project-diagram"></i> Edge Wireframe</button>
+                            <button class="btn btn-secondary" onclick="ultimateOp('watermark')"><i
+                                    class="fas fa-stamp"></i> Add Watermark</button>
+                        </div>
+                    </div>
+
+                    <div class="results-panel">
+                        <div class="glass-card">
+                            <h3><i class="fas fa-tags"></i> Semantic Tags</h3>
+                            <div id="visual-tags" style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 1rem;">
+                                <span class="tag-chip">No tags yet</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card" style="margin-top: 1rem;">
+                            <h3><i class="fas fa-universal-access"></i> Accessibility Audit</h3>
+                            <div id="audit-results"
+                                style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <p style="font-size: 0.75rem; color: var(--text-dim);">Contrast ratio evaluation for the
+                                    extracted palette.</p>
+                            </div>
+                        </div>
+
+                        <div id="guess-card" class="glass-card"
+                            style="margin-top: 1rem; border-top: 3px solid var(--accent); display: none;">
+                            <h3><i class="fas fa-robot"></i> AI Prompt Guess</h3>
+                            <p id="guess-text"
+                                style="font-size: 0.85rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- OCR & Intelligence Section -->
+            <section id="ocr-section" class="content-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 2rem; color: var(--primary);">OCR & Intelligence</h1>
+                    <p style="color: var(--text-dim);">Neural Document Parsing & NLP Suite</p>
+                </div>
+
+                <div class="vision-grid">
+                    <div class="glass-card">
+                        <h3>Document Processor</h3>
+                        <div class="camera-viewport"
+                            style="height: 300px; margin: 1.5rem 0; background: rgba(0,0,0,0.4);">
+                            <img id="ocr-preview" src="" style="display: none; object-fit: contain;">
+                            <div id="ocr-upload-prompt"
+                                style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim);">
+                                <i class="fas fa-file-invoice"
+                                    style="font-size:3rem; margin-bottom:1rem; opacity:0.3;"></i>
+                                <p>No document in processor</p>
+                                <button class="btn btn-primary" style="margin-top:1rem;"
+                                    onclick="document.getElementById('ocrInput').click()"><i
+                                        class="fas fa-file-upload"></i> Single Page</button>
+                                <button class="btn btn-secondary"
+                                    style="margin-top:0.5rem; border: 1px dashed var(--accent);"
+                                    onclick="document.getElementById('bulkInput').click()"><i class="fas fa-copy"></i>
+                                    Document Mode</button>
+                            </div>
+                        </div>
+                        <input type="file" id="ocrInput" hidden onchange="processOCR(this)">
+                        <input type="file" id="bulkInput" hidden multiple onchange="processBulkOCR(this)">
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <button class="btn btn-secondary" onclick="textOpt('summarize')"><i
+                                    class="fas fa-compress-alt"></i> Summarize</button>
+                            <button class="btn btn-secondary" onclick="textOpt('scrub')"><i class="fas fa-eraser"></i>
+                                Scrub PII</button>
+                        </div>
+
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                            <select id="trans-lang"
+                                style="flex: 2; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 5px; border-radius: 5px;">
+                                <option value="English (US)">🇺🇸 English (US)</option>
+                                <option value="English (UK)">🇬🇧 English (UK)</option>
+                                <option value="Hindi (India)">🇮🇳 Hindi (India)</option>
+                                <option value="Spanish (Mexico)">🇲🇽 Spanish (Mexico)</option>
+                                <option value="Spanish (Spain)">🇪🇸 Spanish (Spain)</option>
+                                <option value="Portuguese (Brazil)">🇧🇷 Portuguese (Brazil)</option>
+                                <option value="Portuguese (Portugal)">🇵🇹 Portuguese (Portugal)</option>
+                                <option value="French">🇫🇷 French</option>
+                                <option value="German">🇩🇪 German</option>
+                            </select>
+                            <button class="btn btn-primary" style="flex: 1;" onclick="translateText()"><i
+                                    class="fas fa-language"></i>
+                                Edit & Confirm</button>
+                        </div>
+                    </div>
+
+                    <div class="results-panel">
+                        <div class="glass-card">
+                            <h3><i class="fas fa-paragraph"></i> Extracted Insights</h3>
+                            <textarea id="extracted-text" placeholder="Extracted text will appear here..."
+                                style="width: 100%; height: 180px; margin: 1rem 0; background: rgba(0,0,0,0.2); border: none; padding: 1rem; color: #fff; font-family: 'Inter', sans-serif; resize: none; border-radius: 8px;"></textarea>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div id="mood-badge" class="tag-chip"
+                                    style="background: var(--grad-main); display: none;">Mood: ---</div>
+                                <button class="btn btn-secondary" onclick="speakText()"><i class="fas fa-volume-up"></i>
+                                    Listen</button>
+                            </div>
+                        </div>
+
+                        <div class="glass-card" style="margin-top: 1rem;">
+                            <h3><i class="fas fa-brain"></i> NLP Analysis</h3>
+                            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-dim);">
+                                <p>Language: <b id="text-lang" style="color: var(--accent);">---</b></p>
+                                <p style="margin-top: 5px;">Keywords:</p>
+                                <div id="text-keywords"
+                                    style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+                                    <span style="opacity: 0.5;">Awaiting data...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Pro Features Section -->
+            <section id="pro-section" class="content-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 2rem; color: var(--secondary);">Pro Vision Suite</h1>
+                    <p style="color: var(--text-dim);">Automated Studio & Behavioral Intelligence</p>
+                </div>
+
+                <div class="vision-grid">
+                    <div class="glass-card">
+                        <h3>Vision Workbench</h3>
+                        <div class="camera-viewport"
+                            style="height: 350px; margin: 1.5rem 0; border-color: var(--secondary);">
+                            <img id="pro-preview" src="">
+                            <div id="pro-upload-prompt"
+                                style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim);">
+                                <i class="fas fa-magic" style="font-size:3rem; margin-bottom:1rem; opacity:0.3;"></i>
+                                <p>Pro buffer empty</p>
+                                <button class="btn btn-secondary" style="margin-top:1rem;"
+                                    onclick="document.getElementById('imageInput').click()">Upload for Pro
+                                    Analysis</button>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <button class="btn btn-primary" onclick="proOp('portrait')"><i class="fas fa-portrait"></i>
+                                Portrait Mode</button>
+                            <button class="btn btn-primary" onclick="proOp('emotions')"><i class="fas fa-grin-beam"></i>
+                                Detect Emotions</button>
+                            <button class="btn btn-secondary" onclick="proOp('resize', 'instagram')"><i
+                                    class="fab fa-instagram"></i> IG Resize</button>
+                            <button class="btn btn-secondary" onclick="proOp('resize', 'twitter')"><i
+                                    class="fab fa-twitter"></i> Twitter Crop</button>
+                        </div>
+                    </div>
+
+                    <div class="results-panel">
+                        <div class="glass-card">
+                            <h3><i class="fas fa-chart-line"></i> Quality Audit</h3>
+                            <div id="quality-results" style="margin-top: 1rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Visual Clarity</span>
+                                    <b id="quality-score">0%</b>
+                                </div>
+                                <div style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;">
+                                    <div id="quality-bar"
+                                        style="width: 0%; height: 100%; background: var(--grad-main); transition: width 1s;">
+                                    </div>
+                                </div>
+                                <p id="quality-status"
+                                    style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">Awaiting
+                                    scan...</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card" style="margin-top: 1rem;">
+                            <h3><i class="fas fa-project-diagram"></i> Scene Logic</h3>
+                            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                    <small
+                                        style="color: var(--accent); font-weight: 800; text-transform: uppercase;">Thematic
+                                        Style</small>
+                                    <p id="pro-style" style="font-size: 0.85rem; margin-top: 2px;">Analyzing vibes...
+                                    </p>
+                                </div>
+                                <div style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                    <small
+                                        style="color: var(--secondary); font-weight: 800; text-transform: uppercase;">Relationships</small>
+                                    <p id="pro-rel" style="font-size: 0.85rem; margin-top: 2px;">Mapping connections...
+                                    </p>
+                                </div>
+                                <div style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                    <small
+                                        style="color: #f472b6; font-weight: 800; text-transform: uppercase;">Behavioral
+                                        Flow</small>
+                                    <p id="pro-emotions" style="font-size: 0.85rem; margin-top: 2px;">Awaiting emotional
+                                        scan...
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+
+
+            <!-- Image Analysis Section -->
+            <section id="analysis-section" class="content-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="font-size: 2rem; color: #10b981;">Analysis Image</h1>
+                    <p style="color: var(--text-dim);">Scientific Visualization & Physics-based Intelligence</p>
+                </div>
+
+                <div class="vision-grid">
+                    <div class="glass-card" style="border-top: 3px solid #10b981;">
+                        <h3>Deep Analysis Workbench</h3>
+                        <div class="camera-viewport" style="height: 350px; margin: 1.5rem 0; border-color: #10b981;">
+                            <img id="analysis-preview" src="">
+                            <div id="analysis-upload-prompt"
+                                style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim);">
+                                <i class="fas fa-microscope"
+                                    style="font-size:3rem; margin-bottom:1rem; opacity:0.3;"></i>
+                                <p>Analysis buffer empty</p>
+                                <button class="btn btn-primary" style="margin-top:1rem; background: #10b981;"
+                                    onclick="document.getElementById('imageInput').click()">Run Deep Analysis</button>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                            <button class="btn btn-primary" onclick="analysisOp('edges')"><i
+                                    class="fas fa-draw-polygon"></i> Edge Flow</button>
+                            <button class="btn btn-primary" onclick="analysisOp('depth')"><i
+                                    class="fas fa-layer-group"></i> Depth map</button>
+                            <button class="btn btn-secondary" onclick="analysisOp('composition')"><i
+                                    class="fas fa-border-all"></i> Comp Grid</button>
+                            <button class="btn btn-secondary" onclick="analysisOp('geometry')"><i
+                                    class="fas fa-shapes"></i> Geometry scan</button>
+                        </div>
+                    </div>
+
+                    <div class="results-panel">
+                        <div class="glass-card">
+                            <h3><i class="fas fa-flask"></i> Scientific Reports</h3>
+                            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+                                <div id="light-report"
+                                    style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px;">
+                                    <small style="color: #10b981; font-weight:800;">LIGHT PHYSICS</small>
+                                    <div id="light-data"
+                                        style="margin-top:5px; font-size:0.85rem; color:var(--text-dim);">
+                                        Awaiting photon audit...</div>
+                                </div>
+                                <div id="reliability-card"
+                                    style="padding:15px; background:rgba(255,255,255,0.05); border-radius:10px;">
+                                    <small style="color: #f59e0b; font-weight:800;">NEURAL RELIABILITY</small>
+                                    <h4 id="reliability-score" style="margin:5px 0;">0%</h4>
+                                    <p id="reliability-status" style="font-size:0.75rem; color:var(--text-dim);">
+                                        Scanning
+                                        probability...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card" style="margin-top: 1rem; border-left: 4px solid #10b981;">
+                            <h3><i class="fas fa-brain"></i> Geo Wisdom</h3>
+                            <p id="geo-wisdom-text"
+                                style="font-size: 0.85rem; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-style: italic; margin-top:10px;">
+                                Awaiting structural scan...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Life Science AI Section -->
+            <section id="life-section" class="content-section" style="display: none;">
+                <div class="glass-card" style="margin-bottom: 2rem; border-left: 5px solid #10b981;">
+                    <h2><i class="fas fa-seedling"></i> Life Science AI</h2>
+                    <p>Advanced biological and nutritional computation engine.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <!-- Plant Column -->
+                    <div class="glass-card">
+                        <h3><i class="fas fa-leaf"></i> Eco-Pulse (Plant Health)</h3>
+                        <p style="font-size: 0.8rem; opacity: 0.7;">Upload a leaf image to diagnose health issues. AI
+                            detect Chlorophyll density vs Necrosis.</p>
+                        <button class="btn btn-primary" onclick="triggerLifeAI('plant')"
+                            style="width: 100%; margin-top: 1rem; background: #10b981;">
+                            <i class="fas fa-microscope"></i> Analyze Plant Health
+                        </button>
+                        <div id="plant-result"
+                            style="margin-top: 1rem; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; display: none;">
+                            <!-- Result populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Food Column -->
+                    <div class="glass-card">
+                        <h3><i class="fas fa-utensils"></i> Nutri-Vision (Dietary AI)</h3>
+                        <p style="font-size: 0.8rem; opacity: 0.7;">Scan meal for caloric density & macro estimation
+                            using texture/color histograms.</p>
+                        <button class="btn btn-primary" onclick="triggerLifeAI('food')"
+                            style="width: 100%; margin-top: 1rem; background: #f59e0b;">
+                            <i class="fas fa-pizza-slice"></i> Scan Meal Nutrition
+                        </button>
+                        <div id="food-result"
+                            style="margin-top: 1rem; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; display: none;">
+                            <!-- Result populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Analytics Section -->
+            <section id="admin-section" class="content-section" style="display: none;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div class="glass-card" style="text-align: center; border-bottom: 3px solid var(--primary);">
+                        <small style="color: var(--text-dim); text-transform: uppercase; font-weight: 800;">Neural
+                            Transmissions</small>
+                        <h2 id="total-count-display" style="font-size: 2.5rem; margin-top: 10px;">0</h2>
+                    </div>
+
+                    <div class="glass-card" style="text-align: center; border-bottom: 3px solid #f59e0b;">
+                        <small style="color: var(--text-dim); text-transform: uppercase; font-weight: 800;">Active
+                            Session</small>
+                        <h2 style="font-size: 2.5rem; margin-top: 10px;">LIVE</h2>
+                    </div>
+                    <div class="glass-card" style="text-align: center; border-bottom: 3px solid #ef4444;">
+                        <small style="color: var(--text-dim); text-transform: uppercase; font-weight: 800;">Network
+                            Load</small>
+                        <h2 style="font-size: 2.5rem; margin-top: 10px;">0.4s</h2>
+                    </div>
+                </div>
+
+                <div class="results-panel" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="glass-card">
+                        <h3><i class="fas fa-chart-pie"></i> Local Popularity</h3>
+                        <canvas id="langChart" style="max-height: 200px; margin-top: 1rem;"></canvas>
+                    </div>
+                    <div class="glass-card">
+                        <h3><i class="fas fa-chart-line"></i> Daily Activity</h3>
+                        <canvas id="activityChart" style="max-height: 200px; margin-top: 1rem;"></canvas>
+                    </div>
+                </div>
+    </div>
+    <button class="btn btn-primary" onclick="loadAnalytics()" style="margin-top: 1rem; background: #f59e0b;"><i
+            class="fas fa-sync"></i> Refresh Data</button>
+    </section>
+
+    </main>
+    </div>
+
+    <script>
+        let currentFilename = "";
+        let currentObjects = [];
+        let currentColors = [];
+
+        async function downloadSnapshot() {
+            const img = document.getElementById('live-stream-img');
+            if (img.style.display === 'none') return alert("Start the feed first!");
+
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth || 640;
+            canvas.height = img.naturalHeight || 480;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            const link = document.createElement('a');
+            link.download = 'smartcam_snapshot_' + Date.now() + '.jpg';
+            link.href = canvas.toDataURL('image/jpeg');
+            link.click();
+        }
+
+        async function captureLiveFrame() {
+            const img = document.getElementById('live-stream-img');
+            if (img.style.display === 'none') return alert("Start the feed first!");
+
+            // Create canvas to grab the frame
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth || 640;
+            canvas.height = img.naturalHeight || 480;
+            const ctx = canvas.getContext('2d');
+
+            // Draw current frame
+            try {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // Convert to file
+                // Resize for 1-second speed target
+                const MAX_DIM = 640;
+                let width = canvas.width;
+                let height = canvas.height;
+                if (width > height) {
+                    if (width > MAX_DIM) {
+                        height *= MAX_DIM / width;
+                        width = MAX_DIM;
+                    }
+                } else {
+                    if (height > MAX_DIM) {
+                        width *= MAX_DIM / height;
+                        height = MAX_DIM;
+                    }
+                }
+                const resizeCanvas = document.createElement('canvas');
+                resizeCanvas.width = width;
+                resizeCanvas.height = height;
+                resizeCanvas.getContext('2d').drawImage(canvas, 0, 0, width, height);
+
+                resizeCanvas.toBlob(blob => {
+                    if (!blob) return alert("Frame capture failed");
+                    const file = new File([blob], "snapshot_" + Date.now() + ".jpg", { type: "image/jpeg" });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    const fileInput = document.getElementById('imageInput');
+                    fileInput.files = dataTransfer.files;
+                    previewAndDetect(fileInput);
+                }, 'image/jpeg', 0.7);
+            } catch (e) {
+                console.error(e);
+                alert("Could not capture frame. Security restriction?");
+            }
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(sec => sec.style.display = 'none');
+
+            const targetSec = document.getElementById(sectionId + '-section');
+            if (targetSec) targetSec.style.display = 'block';
+
+            const targetNav = document.getElementById('nav-' + sectionId);
+            if (targetNav) targetNav.classList.add('active');
+
+            // Resource Management: Switch off live cam if leaving live section
+            if (sectionId !== 'live') {
+                toggleLive(false);
+            }
+            if (sectionId === 'admin') {
+                loadAnalytics();
+            }
+        }
+
+        async function previewAndDetect(input) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = e => {
+                // Reset Life AI results
+                document.getElementById('plant-result').style.display = 'none';
+                document.getElementById('food-result').style.display = 'none';
+
+                ['preview', 'ultimate-preview', 'pro-preview', 'lab-preview', 'analysis-preview'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.src = e.target.result;
+                });
+
+                // Start Turbo Processing
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_DIM = 640;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height) {
+                        if (width > MAX_DIM) {
+                            height *= MAX_DIM / width;
+                            width = MAX_DIM;
+                        }
+                    } else {
+                        if (height > MAX_DIM) {
+                            width *= MAX_DIM / height;
+                            height = MAX_DIM;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(async (blob) => {
+                        const formData = new FormData();
+                        formData.append('image', blob, 'upload.jpg');
+
+                        // Show loading state
+                        document.getElementById('vision-story').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing neural patterns...';
+                        document.getElementById('detection-list').innerHTML = '<div style="opacity:0.5;">Scanning objects...</div>';
+
+                        try {
+                            const resp = await fetch('/detect', { method: 'POST', body: formData });
+                            if (!resp.ok) {
+                                const errData = await resp.json();
+                                throw new Error(errData.error || `Server Error: ${resp.status}`);
+                            }
+                            const data = await resp.json();
+
+                            if (data.error) throw new Error(data.error);
+
+                            currentFilename = data.filename;
+                            currentObjects = data.objects;
+
+                            document.getElementById('vision-story').innerText = data.story;
+                            const liveStory = document.getElementById('live-vision-story');
+                            if (liveStory) liveStory.innerText = data.story;
+
+                            renderDetections(data.objects);
+                            fetchStats(data.objects);
+                            ultimateOp('tags');
+                            syncPro();
+                        } catch (e) {
+                            console.error("Detection Failed:", e);
+                            alert("Analysis Failed: " + e.message);
+                        }
+                    }, 'image/jpeg', 0.7);
+                };
+            };
+            reader.readAsDataURL(file);
+            return; // Logic moved inside reader.onload
+        }
+
+        function renderDetections(objs) {
+            const html = objs.map(o => `
+                <div style="margin-bottom: 8px;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.8rem;"><span>${o.label}</span><b>${Math.round(o.confidence * 100)}%</b></div>
+                    <div style="height:4px; background:rgba(255,255,255,0.1); border-radius:2px;"><div style="width:${o.confidence * 100}%; height:100%; background:var(--grad-main);"></div></div>
+                </div>
+            `).join('');
+
+            document.getElementById('detection-list').innerHTML = html;
+            const liveList = document.getElementById('live-detection-list');
+            if (liveList) liveList.innerHTML = html;
+        }
+
+        async function fetchStats(objs) {
+            const resp = await fetch('/object_stats', { method: 'POST', body: JSON.stringify({ objects: objs }) });
+            const data = await resp.json();
+            const html = data.stats.map(s => `
+                <div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; text-align:center;"><b>${s.count}</b><br><small>${s.label}</small></div>
+            `).join('');
+
+            document.getElementById('object-counters').innerHTML = html;
+            const liveCounters = document.getElementById('live-object-counters');
+            if (liveCounters) liveCounters.innerHTML = html;
+        }
+
+
+        async function ultimateOp(op) {
+            if (!currentFilename) return alert("Please upload an image in the Vision Hub first!");
+
+            try {
+                const resp = await fetch('/ultimate_lab', {
+                    method: 'POST',
+                    body: JSON.stringify({ filename: currentFilename, op, objects: currentObjects, colors: currentColors })
+                });
+
+                if (!resp.ok) throw new Error(`Engine Error: ${resp.status}`);
+                const data = await resp.json();
+
+                if (op === 'tags') {
+                    const tagContainer = document.getElementById('visual-tags');
+                    if (tagContainer) tagContainer.innerHTML = data.tags.map(t => `<span class="tag-chip">#${t}</span>`).join('');
+                } else if (op === 'audit') {
+                    const auditContainer = document.getElementById('audit-results');
+                    if (auditContainer) auditContainer.innerHTML = data.audit.map(a => `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div style="width:20px; height:20px; background:${a.color}; border-radius:50%;"></div>
+                            <span style="font-size:0.75rem;">${a.color}: <b>${a.status}</b></span>
+                        </div>
+                    `).join('');
+                } else if (['heatmap', 'wire', 'watermark'].includes(op)) {
+                    const preview = document.getElementById('ultimate-preview');
+                    if (preview) preview.src = data.url + "?t=" + Date.now();
+                } else if (op === 'guess') {
+                    const guessCard = document.getElementById('guess-card');
+                    if (guessCard) guessCard.style.display = 'block';
+                    const guessText = document.getElementById('guess-text');
+                    if (guessText) guessText.innerText = data.prompt;
+                }
+            } catch (err) {
+                console.error("Ultimate Lab Error:", err);
+                alert("Laboratory Hub Error: " + err.message);
+            }
+        }
+
+
+        async function processOCR(input) {
+            if (input.files[0]) {
+                const file = input.files[0];
+
+                // Show preview immediately
+                const reader = new FileReader();
+                reader.onload = e => {
+                    document.getElementById('ocr-preview').src = e.target.result;
+                    document.getElementById('ocr-preview').style.display = 'block';
+                    document.getElementById('ocr-upload-prompt').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+
+                document.getElementById('extracted-text').value = "🏎️ Lightning Uploading...";
+
+                document.getElementById('extracted-text').value = "🏎️ Optimizing document for instant upload...";
+
+                // --- ULTRA-HD MODE: 2000px for Perfect Accuracy ---
+                const img = new Image();
+                img.src = URL.createObjectURL(file);
+                img.onload = async () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_DIM = 2000; // Professional standard for document scans
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_DIM) {
+                            height *= MAX_DIM / width;
+                            width = MAX_DIM;
+                        }
+                    } else {
+                        if (height > MAX_DIM) {
+                            width *= MAX_DIM / height;
+                            height = MAX_DIM;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(async (blob) => {
+                        const formData = new FormData();
+                        formData.append('image', blob, 'opt_doc.jpg');
+
+                        document.getElementById('extracted-text').value = "🧠 Neural Uplink Secure: High Accuracy Mode...";
+
+                        const resp = await fetch('/extract_text', { method: 'POST', body: formData });
+                        const data = await resp.json();
+
+                        document.getElementById('extracted-text').value = data.text;
+
+                        // Universal Sync: Set filename for Pro Features
+                        if (data.filename) {
+                            currentFilename = data.filename;
+                            syncPro();
+                        }
+
+                        // Parallel deep analysis
+                        fetch('/text_intelligence', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: data.text })
+                        }).then(r => r.json()).then(aiData => {
+                            document.getElementById('text-lang').innerText = aiData.language;
+                            document.getElementById('mood-badge').style.display = 'block';
+                            document.getElementById('mood-badge').innerText = "Mood: " + aiData.mood;
+                            document.getElementById('text-keywords').innerHTML = aiData.keywords.map(k => `<span class="tag-chip">${k}</span>`).join('');
+                        });
+                    }, 'image/jpeg', 1.0); // 1.0 = Perfect Quality (No compression noise)
+                };
+            }
+        }
+
+        async function processBulkOCR(input) {
+            if (input.files.length > 0) {
+                const count = input.files.length;
+                document.getElementById('ocr-upload-prompt').innerHTML = `<i class="fas fa-rocket fa-spin" style="font-size:2rem; color: #ff0055;"></i><p>🏎️ Turbo-Scanning ${count} Pages...</p>`;
+                document.getElementById('extracted-text').value = `[SYSTEM] Initiating Neural Uplink for ${count} pages. This will be fast...`;
+
+                const formData = new FormData();
+                for (let i = 0; i < count; i++) {
+                    formData.append('images', input.files[i]);
+                }
+
+                try {
+                    const resp = await fetch('/bulk_ocr', { method: 'POST', body: formData });
+                    const data = await resp.json();
+
+                    document.getElementById('extracted-text').value = data.text;
+                    document.getElementById('ocr-upload-prompt').innerHTML = `<i class="fas fa-check-double" style="font-size:3rem; color:var(--accent);"></i><p>Uplink Complete</p>`;
+
+                    // Parallel Deep Intelligence trigger for the combined text
+                    if (data.text && data.text.length > 10) {
+                        fetch('/text_intelligence', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: data.text })
+                        }).then(r => r.json()).then(aiData => {
+                            document.getElementById('text-lang').innerText = aiData.language;
+                            document.getElementById('mood-badge').style.display = 'block';
+                            document.getElementById('mood-badge').innerText = "Mood: " + aiData.mood;
+                            document.getElementById('text-keywords').innerHTML = aiData.keywords.map(k => `<span class="tag-chip">${k}</span>`).join('');
+                        });
+                    }
+                } catch (e) {
+                    document.getElementById('extracted-text').value = "Error during bulk scan.";
+                    document.getElementById('ocr-upload-prompt').innerHTML = "Scan Failed.";
+                }
+            }
+        }
+
+        async function textOpt(op) {
+            const text = document.getElementById('extracted-text').value;
+            if (!text) return alert("Extract text first!");
+            const resp = await fetch('/text_intelligence', {
+                method: 'POST',
+                body: JSON.stringify({ text, op })
+            });
+            const data = await resp.json();
+            if (data.text) document.getElementById('extracted-text').value = data.text;
+            if (data.keywords) document.getElementById('text-keywords').innerHTML = data.keywords.map(k => `<span class="tag-chip">${k}</span>`).join('');
+        }
+
+        async function translateText() {
+            const text = document.getElementById('extracted-text').value;
+            const lang = document.getElementById('trans-lang').value;
+            const resp = await fetch('/translate', {
+                method: 'POST',
+                body: JSON.stringify({ text, language: lang })
+            });
+            const data = await resp.json();
+            document.getElementById('extracted-text').value = data.translated;
+        }
+
+        async function speakText() {
+            const text = document.getElementById('extracted-text').value;
+            const resp = await fetch('/speak', {
+                method: 'POST',
+                body: JSON.stringify({ text, language: 'en' })
+            });
+            const data = await resp.json();
+            const audio = new Audio(data.audio);
+            audio.play();
+        }
+
+        async function proOp(op, target = '') {
+            if (!currentFilename) return alert("Upload image first!");
+            const resp = await fetch('/pro_features', {
+                method: 'POST',
+                body: JSON.stringify({ filename: currentFilename, op, objects: currentObjects, target })
+            });
+            const data = await resp.json();
+
+            if (op === 'portrait' || op === 'resize') {
+                document.getElementById('pro-preview').src = data.url + "?t=" + Date.now();
+            } else if (op === 'emotions') {
+                document.getElementById('pro-emotions').innerText = data.emotion;
+            } else if (op === 'quality') {
+                document.getElementById('quality-score').innerText = data.quality.score + "%";
+                document.getElementById('quality-bar').style.width = data.quality.score + "%";
+                document.getElementById('quality-status').innerText = data.quality.status + " condition detected.";
+            } else if (op === 'style') {
+                document.getElementById('pro-style').innerText = data.style;
+            } else if (op === 'relationships') {
+                document.getElementById('pro-rel').innerText = data.rel;
+            }
+        }
+
+
+
+        async function analysisOp(op) {
+            if (!currentFilename) return alert("Upload image first!");
+            const resp = await fetch('/image_analysis', {
+                method: 'POST',
+                body: JSON.stringify({ filename: currentFilename, op, objects: currentObjects })
+            });
+            const data = await resp.json();
+
+            if (['edges', 'depth', 'composition'].includes(op)) {
+                document.getElementById('analysis-preview').src = data.url;
+            } else if (op === 'light') {
+                document.getElementById('light-data').innerHTML = `
+                    Avg Lum: ${data.report.average}<br>
+                    Peak Lum: ${data.report.peak}<br>
+                    Shadow Area: ${data.report.shadows}
+                `;
+            } else if (op === 'geometry') {
+                document.getElementById('geo-wisdom-text').innerText = data.geo;
+            } else if (op === 'reliability') {
+                document.getElementById('reliability-score').innerText = data.report.score + "%";
+                document.getElementById('reliability-status').innerText = data.report.status;
+            }
+        }
+
+        // Updated global detector to include pro, lab & analysis logic
+        const syncPro = async () => {
+            if (currentFilename) {
+                proOp('quality');
+                proOp('style');
+                proOp('relationships');
+
+                // Trigger auto analysis reports
+                analysisOp('light');
+                analysisOp('reliability');
+
+                // Hide all relevant prompts
+                ['pro-upload-prompt', 'lab-upload-prompt', 'ultimate-upload-prompt', 'sec-upload-prompt', 'analysis-upload-prompt'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+            }
+        }
+
+        function toggleLive(status) {
+            const img = document.getElementById('live-stream-img');
+            const placeholder = document.getElementById('live-placeholder');
+            if (status) {
+                img.src = "/video_feed";
+                img.style.display = "block";
+                placeholder.style.display = "none";
+            } else {
+                img.src = "";
+                img.style.display = "none";
+                placeholder.style.display = "flex";
+            }
+        }
+
+        let langChart, activityChart;
+        async function loadAnalytics() {
+            const resp = await fetch('/analytics');
+            const data = await resp.json();
+
+            document.getElementById('total-count-display').innerText = data.total_translations;
+
+            const langCtx = document.getElementById('langChart').getContext('2d');
+            if (langChart) langChart.destroy();
+            langChart = new Chart(langCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(data.languages),
+                    datasets: [{
+                        data: Object.values(data.languages),
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#dc2626', '#a855f7']
+                    }]
+                },
+                options: { plugins: { legend: { labels: { color: '#fff' } } } }
+            });
+
+            const actCtx = document.getElementById('activityChart').getContext('2d');
+            if (activityChart) activityChart.destroy();
+            activityChart = new Chart(actCtx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data.daily),
+                    datasets: [{
+                        label: 'Translations',
+                        data: Object.values(data.daily),
+                        borderColor: '#f59e0b',
+                        tension: 0.4
+                    }]
+                },
+                options: { scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } }
+            });
+        }
+
+
+
+
+        async function triggerLifeAI(type) {
+            if (!currentFilename) {
+                alert("Please upload and select an image first (in Vision Hub).");
+                return;
+            }
+
+            const targetDiv = type === 'plant' ? 'plant-result' : 'food-result';
+            const endpoint = type === 'plant' ? '/analyze/plant' : '/analyze/food';
+
+            const resultBox = document.getElementById(targetDiv);
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Neural Analysis in progress...';
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename: currentFilename })
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const data = await response.json();
+
+                if (type === 'plant') {
+                    if (data.diagnosis === "Analysis Failed") {
+                        resultBox.innerHTML = `<div style="color:#ef4444"><i class="fas fa-exclamation-triangle"></i> Analysis Failed. Try a clearer leaf image.</div>`;
+                        return;
+                    }
+                    let color = data.score > 80 ? '#10b981' : (data.score > 50 ? '#f59e0b' : '#ef4444');
+                    resultBox.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:5px; margin-bottom:5px;">
+                            <span>Health Score</span>
+                            <span style="color:${color}; font-weight:bold; font-size:1.1rem;">${data.score}/100</span>
+                        </div>
+                        <div style="font-weight:bold; color:var(--text-main); margin-bottom:3px;"><i class="fas fa-notes-medical"></i> ${data.diagnosis}</div>
+                        <div style="font-size:0.8rem; opacity:0.8; margin-bottom:5px;"><i class="fas fa-clipboard-check"></i> ${data.action}</div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; font-size:0.7rem; color:var(--text-dim);">
+                            <div>Green Index: ${data.green_index}%</div>
+                            <div>Disease Risk: ${data.disease_index}%</div>
+                        </div>
+                    `;
+                } else {
+                    // Food
+                    let densityColor = data.warmth_index > 100 ? '#ef4444' : (data.warmth_index > 50 ? '#f59e0b' : '#10b981');
+                    resultBox.innerHTML = `
+                        <div style="font-weight:bold; color:${densityColor}; font-size:1.05rem; margin-bottom:5px;">${data.density}</div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.9rem;">
+                            <span><i class="fas fa-fire"></i> Estimated:</span>
+                            <span>${data.calories}</span>
+                        </div>
+                        <div style="margin-bottom:5px; font-size:0.9rem;"><i class="fas fa-dna"></i> ${data.macros}</div>
+                        <div style="font-size:0.7rem; color:var(--text-dim);">Thermal Index: ${data.warmth_index}</div>
+                    `;
+                }
+
+            } catch (error) {
+                resultBox.innerHTML = `<div style="color:#ef4444">Error analyzing image: ${error.message}</div>`;
+                console.error(error);
+            }
+        }
+
+
+        async function captureLiveForLifeAI(type) {
+            const img = document.getElementById('live-stream-img');
+            if (img.style.display === 'none') return alert("Start the feed first!");
+
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth || 640;
+            canvas.height = img.naturalHeight || 480;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('image', blob, 'live_snap.jpg');
+
+                try {
+                    // Upload first
+                    const resp = await fetch('/detect', { method: 'POST', body: formData });
+                    const data = await resp.json();
+
+                    if (data.error) throw new Error(data.error);
+
+                    currentFilename = data.filename; // Set global context
+
+                    // Switch to Life AI Tab
+                    showSection('life');
+
+                    // Trigger Analysis
+                    triggerLifeAI(type);
+
+                } catch (e) {
+                    alert("Capture Failed: " + e.message);
+                }
+            }, 'image/jpeg', 0.8);
+        }
+    </script>
+</body>
+
+</html>
